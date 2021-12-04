@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 
 const userRoutes = require('./routes/user');
-//const sauceRoutes = require ('./routes/publication');
+const publicationRoutes = require ('./routes/publication');
 
 
 const app = express();
@@ -46,7 +46,8 @@ app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images'))); //indique a express qu'il faut gérer la ressource image de façon statique
 app.use('/api/auth', userRoutes);
-//app.use('/api/publications', sauceRoutes);
+app.use('/api/publications', publicationRoutes);
+app.use('/api/user', userRoutes);
   
 
 //export de l'app

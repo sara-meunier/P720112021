@@ -1,46 +1,37 @@
 <template>
   <div class="profil">
-    <h1>Votre profil</h1>
 
-<div class ="d-sm-flex justify-space-between flex-row">
-<v-card class="mr-6  text-center"
-      flat
-      tile
-      outlined
-      max-width="250"
-    >
-    <v-img  max-width="250"    
-      src="../assets/icon.png"
-    ></v-img>
-  <subtitle-2> Nom de l'utilisateur </subtitle-2>
-</v-card>
+    <div class ="d-sm-flex justify-space-between flex-row">
 
-<v-card class="container d-flex flex-column justify-space-between " flat outlined :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-4'">
-  <div>
-  <h2 class="mb-6"> details</h2>
-  <p> Mail:</p>
-  <p> Role:</p>
-  </div>
+      <v-card class="mr-6  avatar text-center" flat tile outlined max-width="250" >
+        <v-img  max-width="250"  src="../assets/icon.png"></v-img>
+        <subtitle-2> Nom de l'utilisateur </subtitle-2>
+      </v-card>
 
-  <div class="d-flex justify-space-between">
-   <v-spacer></v-spacer>
-  <v-btn  color="success" class="mr-4" @click="modifier">
-    Modifier mes informations
-  </v-btn>
-  <v-spacer></v-spacer>
-  <v-btn  color="error" class="mr-4" @click="supprimer">
-    Supprimer mon compte
-  </v-btn>
-  <v-spacer></v-spacer>
-  </div>
+      <v-card class="container d-flex flex-column justify-space-around  " flat outlined :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-4'">
+        <div>
+          <h2 class="mb-6"> Votre profil </h2>
+          <p> Mail:</p>
+          <p> Role:</p>
+        </div>
+
+        <div class="d-flex justify-space-around  flex-wrap">
+          <v-btn  color="success" class="mr-4" @click="modifier">
+            Modifier mes informations
+          </v-btn>
   
-</v-card>
-</div>
-</div>
+          <v-btn  color="error" class="mr-4" @click="supprimer">
+          Supprimer mon compte
+          </v-btn>
+        </div>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+
 export default {
   name: "User",
   created() {
@@ -51,3 +42,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+
+.v-card {
+  margin-bottom : 20px;
+}
+
+.v-btn {
+  margin-bottom : 10px;
+}
+
+</style>

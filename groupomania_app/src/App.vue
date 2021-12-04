@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app  dark >
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -10,13 +10,17 @@
           transition="scale-transition"
           width="150"
         />
-
       </div>
+            
 
       <v-spacer></v-spacer>
 
+      
+        
+      
+
       <v-btn text>
-      <li><router-link tag="li" to="/" class="buttonnav">Home</router-link></li>
+      <router-link tag="li" to="/" class="buttonnav">Home</router-link>
       </v-btn>
 
        <v-btn text>
@@ -34,6 +38,7 @@
        <v-btn text>
       <li><router-link tag="li" to="/forum" class="buttonnav">Forum</router-link></li>
       </v-btn>
+      
     </v-app-bar>
 
     <v-main>
@@ -50,18 +55,23 @@ export default {
   name: 'App',
 
   data: () => ({
+    collapseOnScroll: true,
     //
   }),
 };
 </script>
 
 <style lang="scss">
+
+.v-app-bar {
+  background-color:#091f43 !important;
+
+}
+
 #li {text-decoration: none;
-list-style-type: none;
+list-style-type: none !important;
   color : white;
 }
 
-.v-application .primary {
-  background-color: black;
-}
+
 </style>

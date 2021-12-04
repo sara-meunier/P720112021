@@ -2,8 +2,9 @@
   <div class="login">
     <h1>Se connecter</h1>
 
-        <v-text-field v-model="email" :rules="emailRules" label="E-mail"  value="value" id="email" placeholder="placeholder" outlined required></v-text-field>
-        <v-text-field v-model="password" :rules="passwordRules" label="Mot de Passe" placeholder="placeholder" value="value" id="password" outlined required></v-text-field>
+        <v-text-field v-model="email" :rules="emailRules" label="E-mail"   placeholder="placeholder" id="email" outlined required></v-text-field>
+        
+        <v-text-field v-model="password" :rules="passwordRules" label="Mot de Passe" placeholder="placeholder" id="password" outlined required></v-text-field>
 
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="login">
             Se connecter

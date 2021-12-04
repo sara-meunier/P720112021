@@ -3,22 +3,53 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 //var Sequelize = require('sequelize');
 
-exports.signup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)//on "sale" le mot de passe 10 fois
-    .then(hash => {
-      User.create({ // la methode .create = build + save
-        username: req.body.username,
-        email: req.body.email,
-        password: hash,
-        role: req.body.role        
-      })
-      .then(() => { res.status(201).json({ message: 'Utilisateur créé !' });
-                    console.log(user instanceof user)}) // true)
-      .catch(error => res.status(400).json({ error }));
-    })
-    .catch(error => res.status(500).json({ error : 'probleme avec la creation du user'}));
-};
+/*exports.signup = (req, res, next) => {
 
+  console.log("le serveur recoit :" + req.body.name);
+  bcrypt.hash(req.body.password, 10)//on "sale" le mot de passe 10 fois
+
+  .then(hash => {
+    const newUser = {
+      name: req.body.name,
+      role: req.body.role, 
+      password: hash,
+      email: req.body.email };
+
+    (async () => {
+      await sequelize.sync();
+      const utilisateur = await User.create(newUser);
+      console.log(utilisateur.toJSON())
+    })
+    
+ 
+    .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+    .catch(error => res.status(400).json({ error }));
+  })
+  .catch(error => res.status(500).json({ error : 'probleme avec la creation du user'}));
+};
+*/
+
+
+exports.signup = async (req, res) => {
+  try {
+      //const userObject = req.body;
+      const hash = await bcrypt.hash(userObject.password, 8);
+      const newUser = {
+        name: req.body.name,
+        role: req.body.role, 
+        password: hash,
+        email: req.body.email };
+
+      await User.create({newUser
+      })
+      res.status(201).json({ message: 'L\'utilisateur à été créé' })
+  } catch (err) {
+      res.status(500).json('Something went wrong')
+  }
+}
+
+ /* bcrypt.hash(req.body.password, 10)//on "sale" le mot de passe 10 fois
+    */
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
@@ -43,5 +74,3 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
-
-//exports.profil= 

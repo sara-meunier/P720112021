@@ -1,32 +1,32 @@
 <template>
   <div class="forum">
-    <h1>This is the forum page</h1>
-
+    <h1>This is the forum page </h1>
+     
     <v-row class="justify-space-between pt-10">
-      <v-col s="12" md="3" class="border"  id="informations">
-        <v-select
-          :items="items"
-          label="Trier par"
-          solo
-        ></v-select>
 
-        <br/>
-        
-        
+      <v-col  cols="12" sm="4" class="border">
+        <div id="informations" class="border">
+
+        <v-select :items="items" label="Trier par" solo></v-select>
         <p>nombre de publications : {{totalMessage}}</p>
+        <v-btn  color="" id="create">
+          <router-link  to="/publicationCreation" class="buttonCreate">Créer une nouvelle publication</router-link>
+        </v-btn> 
+        </div>
       </v-col>
 
-      <v-col s="12" md="8" class=" border"  outlined>
-        <p> ici les messages </p>
+      <v-col cols="12" sm="8" class="text-center"  outlined>
+
         
 
-          <div class="d-flex flex-column text-center">
-            <publicationsList />
-
+       <div class=" text-center border gray"> 
+         
+          <publicationsList />
         </div>
       </v-col>
 
     </v-row>
+
   </div>
 </template>
 
@@ -48,18 +48,35 @@ export default {
 
 </script>
 
-<style lang="scss">
-.border { border : 1px solid;
-border-color: #dddddd;
-border-radius: 3px;
+<style lang="scss" scoped>
+
+.border { 
+border-radius: 10px;
 }
 
 #informations{
   padding: 10px;
   margin-right: 5px;
-  background-color: #dddddd;
-
+  background-color: #f5f5f5;
 }
+
+.gray {
+  background-color: #f5f5f5;
+}
+
+#create {
+ margin: 10px;
+ background-color:#091f43;
+ //background-color:#bbb7b1;
+ //background-color:#d1515a;
+  
+}
+#create a {
+  text-decoration: none;
+  font-weight: bold;
+  color:white;
+}
+
 </style>
 
 

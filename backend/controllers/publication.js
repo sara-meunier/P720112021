@@ -5,10 +5,10 @@ const fs = require('fs'); //package file system de node
 
 exports.createPublication = (req, res, next) => {
   const publicationObject = JSON.parse(req.body.publication);
-  delete publicationObject._id;
   const publication = new Publication({
     ...publicationObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    //recuperer le userid dans le store
+    //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     likes: 0,
     dislikes: 0,
     usersLiked: [],
