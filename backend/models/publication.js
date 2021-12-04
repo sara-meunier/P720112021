@@ -1,22 +1,25 @@
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize('groupomania', process.env.mySQL_user, process.env.mySQL_password, {
-host: 'localhost',
-dialect: 'mysql',
-//logging: false,//passer a true pour voir les différentes requêtes effectuées par l'ORM
-});
-
-//on exporte pour utiliser notre connexion depuis les autre fichiers.
-var exports = module.exports = {};
-exports.sequelize = sequelize;
-
-
-const Publication = sequelize.define('publication', {
-  id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true},
-  author: {type: Sequelize.STRING(255), allowNull: false, },
-  title: {type: Sequelize.STRING(255), allowNull: false, unique: true},
-  content: {type: Sequelize.STRING(255), allowNull: false, unique: true}
- },
-  {tableName: 'publication', timestamps: false, underscored: true}
-);
-exports.Publication = Publication;
-console.log(Publication === sequelize.models.Publication); // true
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Publication extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  };
+  Publication.init({
+    author: DataTypes.STRING,
+    title: DataTypes.STRING,
+    content: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Publication',
+  });
+  return Publication;
+};

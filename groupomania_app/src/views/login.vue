@@ -1,7 +1,11 @@
 <template>
   <div class="login">
     <h1>Se connecter</h1>
-
+<v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+    >
         <v-text-field v-model="email" :rules="emailRules" label="E-mail"   placeholder="placeholder" id="email" outlined required></v-text-field>
         
         <v-text-field v-model="password" :rules="passwordRules" label="Mot de Passe" placeholder="placeholder" id="password" outlined required></v-text-field>
@@ -9,6 +13,7 @@
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="login">
             Se connecter
         </v-btn>
+        </v-form>
 
   </div>
 </template>
@@ -37,6 +42,31 @@
 
     computed: {},
 
-    methods: {},
+    methods: {
+      validate () {
+            this.$refs.form.validate()
+        },
+
+      async login() {
+            await this.validate()
+            if (!this.valid) return
+
+            // fetch
+            let api = 'http://localhost:3000/api';
+            console.log(api + '/login');
+            let user = { password:this.password,email:this.email  };
+            console.log(user);
+
+            fetch("http://localhost:3000/api/user/login", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user),
+        })
+        .then(response => response.json());
+        }
+    },
   }
 </script>

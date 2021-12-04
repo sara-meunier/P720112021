@@ -2,7 +2,7 @@ const Publication = require('../models/publication');
 const fs = require('fs'); //package file system de node
 //changement
 
-
+/*
 exports.createPublication = (req, res, next) => {
   const publicationObject = JSON.parse(req.body.publication);
   const publication = new Publication({
