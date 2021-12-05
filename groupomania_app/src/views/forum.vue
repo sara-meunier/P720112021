@@ -10,7 +10,7 @@
         <v-select :items="items" label="Trier par" solo></v-select>
         <p>nombre de publications : {{totalMessage}}</p>
         <v-btn  color="" id="create">
-          <router-link  to="/publicationCreation" class="buttonCreate">Créer une nouvelle publication</router-link>
+          <router-link  to="/publicationCreation" class="buttonCreate">Créer une publication</router-link>
         </v-btn> 
         </div>
       </v-col>
@@ -67,11 +67,13 @@ border-radius: 10px;
 #create {
  margin: 10px;
  background-color:#091f43;
+ text-overflow: ellipsis;
  //background-color:#bbb7b1;
  //background-color:#d1515a;
   
 }
 #create a {
+  text-overflow: ellipsis;
   text-decoration: none;
   font-weight: bold;
   color:white;

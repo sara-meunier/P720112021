@@ -20,9 +20,9 @@
 
 
 <script>
-
+import { mapState } from "vuex";
   export default {
-    name: 'signup',
+    name: 'login',
     components: {},
 
     data: () => ({
@@ -40,12 +40,17 @@
       option:'',
     }),
 
-    computed: {},
+    ccomputed: {
+    ...mapState(["user"])
+  },
 
     methods: {
       validate () {
             this.$refs.form.validate()
         },
+      storageUser() {
+        this.$store.commit("storageUSer")
+      },
 
       async login() {
             await this.validate()
@@ -65,7 +70,10 @@
             },
             body: JSON.stringify(user),
         })
-        .then(response => response.json());
+        .then(response => response.json()
+        );
+        const router = this.$router
+        router.push({path:'forum'})
         }
     },
   }

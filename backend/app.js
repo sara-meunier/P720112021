@@ -8,8 +8,6 @@ const publicationRoutes = require ('./routes/publication');
 const app = express();
 const path = require('path'); //chemin de notre systeme de fichier
 
-//------------ connection à la base de donnée
-
 
 
 //on teste la connexion à la base de données
@@ -46,7 +44,7 @@ app.use(express.json());
 
 app.use('/images', express.static(path.join(__dirname, 'images'))); //indique a express qu'il faut gérer la ressource image de façon statique
 app.use('/api/auth', userRoutes);
-app.use('/api/publications', publicationRoutes);
+app.use('/api/publication', publicationRoutes);
 app.use('/api/user', userRoutes);
   
 

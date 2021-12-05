@@ -58,7 +58,8 @@ export default {
     collapseOnScroll: true,
     //
   }),
-};
+
+ };
 </script>
 
 <style lang="scss">

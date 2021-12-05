@@ -1,26 +1,26 @@
-const Publication = require('../models/publication');
+const Model = require('../models');
 const fs = require('fs'); //package file system de node
+
 //changement
 
-/*
-exports.createPublication = (req, res, next) => {
-  const publicationObject = JSON.parse(req.body.publication);
-  const publication = new Publication({
-    ...publicationObject,
-    //recuperer le userid dans le store
-    //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-    likes: 0,
-    dislikes: 0,
-    usersLiked: [],
-    usersdisLiked: [],
-  });
-  publication.save()
-    .then(() => res.status(201).json({ message: 'Publication enregistrée !'}))
-    .catch(error => res.status(400).json({ error }));
+exports.createPublication = async (req, res, next) => {
+  try {
+  
+ const userId= "truc";
+    
+  await Model.Publication.create({
+    author: userId,
+    title: req.body.title, 
+    content: req.body.content,
+  })
+  res.status(201).json({ message: 'L\'utilisateur à été créé' })
+}
+    catch(err) { res.status(400).json("probleme avec la creation du post")
+    console.log(err);};
 };
 
 exports.getAllPublication = (req, res, next) => {
-    Publication.find().then(
+    Model.Publication.findAll().then(
       (publications) => {
         res.status(200).json(publications);
       }
@@ -33,7 +33,7 @@ exports.getAllPublication = (req, res, next) => {
     );
   };
 
-exports.deletePublication = (req, res, next) => {
+/*exports.deletePublication = (req, res, next) => {
     Publication.findOne({ _id: req.params.id })
       .then(thing => {
         const filename = thing.imageUrl.split('/images/')[1];
@@ -44,12 +44,11 @@ exports.deletePublication = (req, res, next) => {
         });
       })
       .catch(error => res.status(500).json({ error }));
-};
+};*/
 
 exports.getOnePublication = (req, res, next) => {
-    Publication.findOne({
-      _id: req.params.id
-    }).then(
+    Model.Publication.findOne ({ where: {id: req.params.id} })
+    .then(
       (publication) => {
         res.status(200).json(publication);
       }
@@ -62,7 +61,7 @@ exports.getOnePublication = (req, res, next) => {
     );
   };
 
-exports.modifyPublication = (req, res, next) => {
+/*exports.modifyPublication = (req, res, next) => {
     const publicationObject = req.file ? //si il y a une nouvelle image
       {
         ...JSON.parse(req.body.publication),
@@ -72,9 +71,9 @@ exports.modifyPublication = (req, res, next) => {
       Publication.updateOne({ _id: req.params.id }, { ...publicationObject, _id: req.params.id })
       .then(() => res.status(200).json({ message: 'Sauce modifié !'}))
       .catch(error => res.status(400).json({ error }));
-};
+};*/
 
-exports.likePublication = (req, res, next) => {
+/*exports.likePublication = (req, res, next) => {
   const userId = req.body.userId;
 
   Publication.findOne({_id: req.params.id})
@@ -146,5 +145,5 @@ exports.likePublication = (req, res, next) => {
       break;
     };  
   });
-}
+}*/
 

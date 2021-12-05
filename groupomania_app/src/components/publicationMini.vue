@@ -9,7 +9,8 @@
             <v-card-text> {{publication.preview}}</v-card-text>
             <v-card-actions class="d-flex justify-space-between">
                 <v-btn outlined rounded text>
-                    <router-link :to="'/publication/' + publication.id">
+                   <router-link :to="'/publication/' + publication.id"> 
+                   <!-- <router-link to="/publication"> --->
                     Consulter
                     </router-link>
                 </v-btn> <v-container fill-height class="like"> {{publication.numberLike}}<i class="material-icons">favorite_border</i></v-container>

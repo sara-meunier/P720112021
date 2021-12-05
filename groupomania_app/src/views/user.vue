@@ -11,8 +11,8 @@
       <v-card class="container d-flex flex-column justify-space-around  " flat outlined :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-4'">
         <div>
           <h2 class="mb-6"> Votre profil </h2>
-          <p> Mail:</p>
-          <p> Role:</p>
+          <p> Mail: {{$store.state.user.email}}</p>
+          <p> Role : {{$store.state.user.role}}</p>
         </div>
 
         <div class="d-flex justify-space-around  flex-wrap">
@@ -20,7 +20,7 @@
             Modifier mes informations
           </v-btn>
   
-          <v-btn  color="error" class="mr-4" @click="supprimer">
+          <v-btn  color="error" class="mr-4" @click="deleteUser">
           Supprimer mon compte
           </v-btn>
         </div>
@@ -34,12 +34,31 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "User",
+  data : () => ({
+   // email : $store.state.user.email,
+   email: "dark.kenobi@gmail.com"
+  }),
   created() {
-    this.$store.dispatch("getUser");
+   // this.$store.dispatch("getUser");
   },
   computed: {
     ...mapGetters(["activeUser"])
   },
+  methods:{
+     deleteUSer() {
+       console.log("ok on supprime");
+      let api = 'http://localhost:3000/api';
+      const router = this.$router;
+      console.log(api + '/user');
+      fetch("http://localhost:3000/api/user", {
+        method: "DELETE",
+        body: this.email
+              //headers: {}
+      })   
+      .then(response => response.json())
+      .then(router.push({path:'forum'}))
+    }
+  }
 };
 </script>
 

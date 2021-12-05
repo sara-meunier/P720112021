@@ -2,11 +2,15 @@
   <v-container>
     <h1> creation de publication </h1>
     <div class="creationPublication">
-        <v-form>
+        <v-form
+        ref="form"
+        v-model="valid"
+        lazy-validation
+    >
         <v-text-field v-model="title" :rules="titleRules" label="Titre" placeholder="titre de la publication" id="title" required outlined></v-text-field>
         <v-textarea outlined v-model="content" :rules="contentRules"></v-textarea>
         </v-form>
-        <v-btn :disabled="!valid" color="success" class="mr-4" @click="creationUser">
+        <v-btn :disabled="!valid" color="success" class="mr-4" @click="creationPublication">
             Publier
         </v-btn>
     </div>
@@ -35,9 +39,30 @@
     components: {},
 
     methods: {
-        validate () {
+      validate () {
             this.$refs.form.validate()
         },
+
+      async creationPublication() {
+        await this.validate()
+        if (!this.valid) return
+
+            // fetch
+        let api = 'http://localhost:3000/api';
+        console.log(api + '/publication');
+        let publication = {title:this.title, content:this.content};
+        console.log(publication.title);
+
+        fetch("http://localhost:3000/api/publication", {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json', 
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(publication),
+        })
+        .then(response => response.json());
+      }
     }
   }
 </script>

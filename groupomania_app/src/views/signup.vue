@@ -28,6 +28,7 @@
 
 <script>
 //import axios from "axios";
+import { mapState } from "vuex";
 export default {
     name: 'signup',
     components: {},
@@ -56,8 +57,8 @@ export default {
     }),
 
     computed: {
-      
-    },
+    ...mapState(["user"])
+  },
 
     methods: {
         validate () {
@@ -68,13 +69,6 @@ export default {
             await this.validate()
             if (!this.valid) return
 
-          /*  axios
-            .post("http://localhost:3000/api/user/signup", this.dataSignup)
-            .then(response => {
-                console.log(response);
-            })
-        }*/
-
             // fetch
             let api = 'http://localhost:3000/api';
             console.log(api + '/signup');
@@ -82,14 +76,14 @@ export default {
             console.log(user);
 
             fetch("http://localhost:3000/api/user/signup", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user),
-        })
-        .then(response => response.json());
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user),
+            })
+            .then(response => response.json());
         }
     },
   }

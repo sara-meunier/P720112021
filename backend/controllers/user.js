@@ -33,9 +33,6 @@ exports.signup = async (req, res) => {
 }
 
 
-
-
-
 exports.login = (req, res, next) => {
   Model.User.findOne({ where: {email: req.body.email} })
     .then(user => {
@@ -60,3 +57,17 @@ exports.login = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
+
+exports.deleteUser = async (req, res, next) => {
+  Model.User.findOne({ where: {email: req.body.email} })
+  .then(async user => {
+    await Model.Publication.destroy({where: { author: user.id }})
+    .then ( 
+      await Model.User.destroy()
+      .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
+      .catch(error => res.status(400).json({ error }))
+    )
+    .catch(error => res.status(500).json({ error }));
+  })
+.catch(error => res.status(500).json({ error }));
+}
