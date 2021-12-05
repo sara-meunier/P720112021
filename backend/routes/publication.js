@@ -8,6 +8,7 @@ const publicationsCtrl = require('../controllers/publication');
 router.post('/', multer, publicationsCtrl.createPublication);
 router.get('/', multer, publicationsCtrl.getAllPublication);
 router.get('/:id', publicationsCtrl.getOnePublication);
+router.get('/:id', publicationsCtrl.getOnePublication);
 
 /*
 

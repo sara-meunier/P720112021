@@ -32,7 +32,6 @@ exports.signup = async (req, res) => {
   }
 }
 
-
 exports.login = (req, res, next) => {
   Model.User.findOne({ where: {email: req.body.email} })
     .then(user => {
@@ -59,15 +58,22 @@ exports.login = (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-  Model.User.findOne({ where: {email: req.body.email} })
-  .then(async user => {
-    await Model.Publication.destroy({where: { author: user.id }})
-    .then ( 
-      await Model.User.destroy()
-      .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
-      .catch(error => res.status(400).json({ error }))
-    )
-    .catch(error => res.status(500).json({ error }));
-  })
-.catch(error => res.status(500).json({ error }));
+  try {
+    const utilisateur = await Model.User.findOne({ 
+    where: {email: req.body.email} });
+    console.log("utilisateur" + utilisateur);
+    if (utilisateur !== null){
+    //await Model.Publication.destroy({where: { email: req.body.email }})
+    //.then ( 
+      //await Model.User.destroy()
+      console.log ("la on supprime");
+      //.then(() => res.status(200).json({ message: 'utilisateur supprimée !'}))
+      //.catch(error => res.status(400).json({message: "erreur 1"},{error }))
+    }
+    else {res.status(502).json({ error })}
+  }
+  catch (err) {
+    console.log(err);
+      res.status(500).json('Something went wrong')
+  }
 }

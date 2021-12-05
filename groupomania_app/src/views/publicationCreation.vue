@@ -53,7 +53,7 @@
         let publication = {title:this.title, content:this.content};
         console.log(publication.title);
 
-        fetch("http://localhost:3000/api/publication", {
+        fetch("http://localhost:3000/api/publication/delete", {
           method: "POST",
           headers: {
             'Accept': 'application/json', 

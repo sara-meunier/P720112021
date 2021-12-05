@@ -30,35 +30,51 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+//import { mapGetters } from "vuex";
 
 export default {
   name: "User",
+
   data : () => ({
    // email : $store.state.user.email,
-   email: "dark.kenobi@gmail.com"
+   email: "dark.kenobi@gmail.com",
   }),
+
   created() {
    // this.$store.dispatch("getUser");
   },
+
   computed: {
-    ...mapGetters(["activeUser"])
+    //...mapGetters(["activeUser"])
   },
+
   methods:{
-     deleteUSer() {
-       console.log("ok on supprime");
+     deleteUser() {
+      console.log("ok on supprime");
       let api = 'http://localhost:3000/api';
-      const router = this.$router;
+      //const router = this.$router;
       console.log(api + '/user');
-      fetch("http://localhost:3000/api/user", {
+      let email = {email:this.email};
+
+      fetch("http://localhost:3000/api/user/delete", {
         method: "DELETE",
-        body: this.email
+        headers: {
+            //'Accept': 'application/json', 
+            //'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(email),
               //headers: {}
       })   
       .then(response => response.json())
-      .then(router.push({path:'forum'}))
+      //.then(router.push({path:'forum'}))
+    },
+
+    truc() { 
+      console.log("ça marche");
+      alert("tada!")
     }
   }
+
 };
 </script>
 

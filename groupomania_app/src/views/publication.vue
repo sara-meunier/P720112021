@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <h1> titre </h1>
+    <h1> {{publication.title}} </h1>
+    <subtitle-2> {{publication.author}} </subtitle-2>
     <div class="Publication">
         <div>
             {{publication.content}}
@@ -35,37 +36,26 @@
 
     created() {
       const API_URL = "http://localhost:3000/api/publication";
-      const urlParams = new URLSearchParams(window.location.search);
-      const publicationId = urlParams.get('id');
-      console.log(publicationId);
+      //const urlParams = new URLSearchParams(window.location.search);
+      const publicationId = this.$route.params.id;
+      console.log("l'id de la publication est :" +publicationId);
       return fetch (API_URL+"/"+ publicationId)
       .then ( function(res) {//res = reponse de la requete
-        if (res.ok) {
-            return res.json();
-        }
-            //si la requete s'est bien passé, on récupére les données au format json
+       if (res.ok) {
+         return res.json();
+       }
+       else { console.log ("il y a un probleme avec la requete")}
       })
-
-      .then(res => {
-        console.log("prout prout" + res)
-      /*  let table = [];
-        for (var i = 0; i<res.length; i++) {
-            let id = res[i].id;
-            let title =res[i].title;
-            let content = res[i].content;
-            let author = res[i].author;
-
-            let product = {
-              id: id,
-              title: title,
-              content: content,
-              author: author
-            }
-
-            table.push (product);
-        }
-        this.allPublications = table;*/
+      .then (res => {
+        this.publication = {
+          id:res.id,
+          author:res.author,
+          title:res.title,
+          content:res.content
+         };
+         console.log ("publication recupérée = " + this.publication + "et aussi" +res.author);
       })
     }
   }
+
 </script>
