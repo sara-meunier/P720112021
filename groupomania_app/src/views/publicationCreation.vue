@@ -34,6 +34,7 @@
             v => !!v || 'Votre message est vide',
             v => (v && v.length <= 2000) || 'Le titre doit faire moins de 2000 caractéres',
         ],
+        userId:'',
     }),
     
     components: {},
@@ -50,10 +51,10 @@
             // fetch
         let api = 'http://localhost:3000/api';
         console.log(api + '/publication');
-        let publication = {title:this.title, content:this.content};
+        let publication = {title:this.title, content:this.content, userId:this.userId};
         console.log(publication.title);
 
-        fetch("http://localhost:3000/api/publication/delete", {
+        fetch("http://localhost:3000/api/publication", {
           method: "POST",
           headers: {
             'Accept': 'application/json', 
@@ -62,6 +63,9 @@
           body: JSON.stringify(publication),
         })
         .then(response => response.json());
+        alert ("Votre message a bien été enregistrer");
+        const router = this.$router;
+        router.push({path:'forum'});
       }
     }
   }

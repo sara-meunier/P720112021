@@ -4,11 +4,19 @@
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
-          class="shrink mr-2"
+          class="shrink mr-2 d-none d-sm-flex"
           contain
           src="./assets/logo_groupomania.png"
           transition="scale-transition"
           width="150"
+        />
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2 d-flex d-sm-none"
+          contain
+          src="./assets/icon_white.png"
+          transition="scale-transition"
+          width="25"
         />
       </div>
             

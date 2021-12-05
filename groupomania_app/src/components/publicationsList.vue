@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h1> Dernière publications</h1>
-    <div>{{tablepublication}}</div>
+    <div>{{allPublication}}</div>
 
       <div
         v-for="publication in allPublications"
@@ -43,7 +43,13 @@ import publicationMini from '@/components/publicationMini.vue';
 
     created() {
       const API_URL = "http://localhost:3000/api/publication";
-      return fetch (API_URL+"/")
+      let tokenTemp = localStorage.getItem("token");
+      //let token = JSON.parse(tokenTemp);
+      console.log("le token est : " + tokenTemp );
+      return fetch (API_URL+"/")//, {
+      //headers: {
+          //Authorization: "Bearer " + token
+        //}})
       .then ( function(res) {//res = reponse de la requete
         if (res.ok) {
             return res.json();
@@ -52,8 +58,6 @@ import publicationMini from '@/components/publicationMini.vue';
       })
 
       .then(res => {
-        console.log("post", res.data);
-        console.log("2eme" + res)
         let table = [];
         for (var i = 0; i<res.length; i++) {
             let id = res[i].id;

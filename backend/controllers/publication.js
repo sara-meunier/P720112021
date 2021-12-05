@@ -6,12 +6,13 @@ const fs = require('fs'); //package file system de node
 exports.createPublication = async (req, res, next) => {
   try {
   
- const userId= "truc";
+ const author= "author";
     
   await Model.Publication.create({
-    author: userId,
+    author: author,
     title: req.body.title, 
     content: req.body.content,
+    userId: req.body.userId,
   })
   res.status(201).json({ message: 'L\'utilisateur à été créé' })
 }

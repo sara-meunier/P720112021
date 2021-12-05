@@ -70,11 +70,13 @@ import { mapState } from "vuex";
             },
             body: JSON.stringify(user),
         })
-        .then(response => response.json()
-        );
-        const router = this.$router
-        router.push({path:'forum'})
-        }
+        .then(response => {
+          localStorage.setItem('token',response.token);
+          const router = this.$router
+          router.push({path:'forum'})
+        })
+        .catch(err => console.log(err));
+      }
     },
   }
 </script>
