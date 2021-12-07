@@ -23,29 +23,32 @@
 
       <v-spacer></v-spacer>
 
-      
-        
-      
 
-      <v-btn text>
-      <router-link tag="li" to="/" class="buttonnav">Home</router-link>
+      <v-btn text to="/">
+        Home
       </v-btn>
 
-       <v-btn text>
-      <li><router-link tag="li" to="/signup" class="buttonnav">S'inscrire</router-link></li>
+      <v-btn text to="/forum" class="buttonnav" v-if="this.userInfos.isAuthenticated">
+       Forum
       </v-btn>
 
-       <v-btn text>
-      <li><router-link tag="li" to="/login" class="buttonnav">Se connecter</router-link></li>
+       <v-btn text to="/signup" class="buttonnav" v-if="this.userInfos.isAuthenticated===false">
+       S'inscrire
+       </v-btn>
+
+       <v-btn text to="/login" class="buttonnav" v-if="this.userInfos.isAuthenticated===false">
+       Se connecter
       </v-btn>
 
-       <v-btn text>
-      <li><router-link tag="li" to="/user" class="buttonnav">Profil</router-link></li>
+       <v-btn text to="/user" class="buttonnav" v-if="this.userInfos.isAuthenticated">
+       Profil
       </v-btn>
 
-       <v-btn text>
-      <li><router-link tag="li" to="/forum" class="buttonnav">Forum</router-link></li>
+      <v-btn text to="/login" class="buttonnav" v-if="this.userInfos.isAuthenticated" @click="this.disconnectUser">
+       Se deconnecter
       </v-btn>
+
+
       
     </v-app-bar>
 
@@ -58,16 +61,35 @@
 </template>
 
 <script>
-
+import { mapMutations } from "vuex";
 export default {
   name: 'App',
 
   data: () => ({
     collapseOnScroll: true,
-    //
   }),
 
- };
+  computed: {
+    userInfos: function() {
+      return {
+        isAuthenticated: this.$store.getters.isAuthenticated,
+        id: this.$store.getters.id,
+        token: this.$store.getters.token,
+        name: this.$store.getters.name,
+        email: this.$store.getters.email,
+        role: this.$store.getters.role
+      }
+    }
+  },
+
+  methods : {
+    ...mapMutations(['disconnectUser'])
+  },
+  
+}
+
+
+
 </script>
 
 <style lang="scss">

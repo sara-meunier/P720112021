@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1> Dernière publications</h1>
+    <h1> Dernières publications</h1>
     <div>{{allPublication}}</div>
 
       <div
@@ -10,10 +10,9 @@
         class=""
         >
         
-         <publicationMini :publication="publication" />
+        <publicationMini :publication="publication" />
         
-      </div>
-      
+      </div> 
   </v-container>
 </template>
 
@@ -22,9 +21,11 @@
 import publicationMini from '@/components/publicationMini.vue';
   export default {
     name: 'publicationsList',
+
     components: {
       publicationMini,
     },
+
     data() {
       return {
         publication: {
@@ -37,24 +38,31 @@ import publicationMini from '@/components/publicationMini.vue';
       };
     },
 
-    computed : {},
+    computed: {
+      userInfos: function() {
+        return {
+          isAuthenticated: this.$store.getters.isAuthenticated,
+          id: this.$store.getters.id,
+          token: this.$store.getters.token,
+          name: this.$store.getters.name,
+          email: this.$store.getters.email,
+          role: this.$store.getters.role
+        }
+      }
+    },
 
     methods: {},
 
     created() {
-      const API_URL = "http://localhost:3000/api/publication";
-      let tokenTemp = localStorage.getItem("token");
-      //let token = JSON.parse(tokenTemp);
-      console.log("le token est : " + tokenTemp );
-      return fetch (API_URL+"/")//, {
-      //headers: {
-          //Authorization: "Bearer " + token
-        //}})
+      return fetch ("http://localhost:3000/api/publication/", {
+      headers: {
+          Authorization: "Bearer " + this.userInfos.token
+        }
+      })
       .then ( function(res) {//res = reponse de la requete
         if (res.ok) {
             return res.json();
-        }
-            //si la requete s'est bien passé, on récupére les données au format json
+        } else ( alert("une erreur s'est produite"))
       })
 
       .then(res => {
@@ -71,7 +79,6 @@ import publicationMini from '@/components/publicationMini.vue';
               content: content,
               author: author
             }
-
             table.push (product);
         }
         this.allPublications = table;

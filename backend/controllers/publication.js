@@ -1,51 +1,68 @@
 const Model = require('../models');
 const fs = require('fs'); //package file system de node
 
-//changement
+
 
 exports.createPublication = async (req, res, next) => {
   try {
-  
- const author= "author";
-    
-  await Model.Publication.create({
-    author: author,
-    title: req.body.title, 
-    content: req.body.content,
-    userId: req.body.userId,
-  })
-  res.status(201).json({ message: 'L\'utilisateur à été créé' })
-}
-    catch(err) { res.status(400).json("probleme avec la creation du post")
-    console.log(err);};
+    await Model.Publication.create({
+      author: req.body.author,
+      title: req.body.title, 
+      content: req.body.content,
+      userId: req.body.userId,
+    })
+    res.status(201).json({ message: 'L\'utilisateur à été créé' })
+  }
+  catch(err) { res.status(400).json("probleme avec la creation du post")
+  console.log(err);};
 };
 
 exports.getAllPublication = (req, res, next) => {
-    Model.Publication.findAll().then(
-      (publications) => {
-        res.status(200).json(publications);
-      }
-    ).catch(
-      (error) => {
-        res.status(400).json({
-          error: error
-        });
-      }
-    );
-  };
+  Model.Publication.findAll({
+    order : [['createdAt', 'DESC']]
+  }).then(
+    (publications) => {
+      res.status(200).json(publications);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};
 
-/*exports.deletePublication = (req, res, next) => {
-    Publication.findOne({ _id: req.params.id })
-      .then(thing => {
-        const filename = thing.imageUrl.split('/images/')[1];
-        fs.unlink(`images/${filename}`, () => {
-          Publication.deleteOne({ _id: req.params.id })
-            .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
-            .catch(error => res.status(400).json({ error }));
-        });
-      })
-      .catch(error => res.status(500).json({ error }));
-};*/
+exports.deletePublication = async (req, res, next) => {
+  try {
+    const publication = await Model.Publication.findOne({ where: {id : req.params.id} 
+    });
+    if (publication !== null){ 
+      console.log(publication.id)
+      //on supprime d'abord les commentaires de la publication si il y en a
+
+      const commentaire = await Model.Comment.findOne({where: {publicationId : publication.id}})
+
+      if (commentaire !== null) {
+        Model.Comment.destroy({ where: { publicationId :publication.id}})
+        .then(() => res.status(200).json({ message: 'commentaires de la publication supprimés !'}))
+      } else {
+        console.log("pas de commentaire à supprimer")
+      };
+      
+      //on supprime la publication
+      await Model.Publication.destroy({where: { id :req.params.id }})
+      .then(() => res.status(200).json({ message: 'publication supprimée !'}))
+      
+      .catch(error => res.status(400).json({message: "Une erreur est survenue lors de la mise à jour de la base de donnée"},{error }))
+    }
+    else {res.status(502).json({ error })}
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).json('Une erreur est survenue')
+  }
+};
 
 exports.getOnePublication = (req, res, next) => {
     Model.Publication.findOne ({ where: {id: req.params.id} })
@@ -62,89 +79,24 @@ exports.getOnePublication = (req, res, next) => {
     );
   };
 
-/*exports.modifyPublication = (req, res, next) => {
-    const publicationObject = req.file ? //si il y a une nouvelle image
-      {
-        ...JSON.parse(req.body.publication),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-      } : { ...req.body }; //sinon on traite l'objet entrant
-
-      Publication.updateOne({ _id: req.params.id }, { ...publicationObject, _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Sauce modifié !'}))
+exports.modifyPublication = async (req, res, next) => {
+  try { 
+    let newContent = (req.body.content);
+    await Model.Publication.findOne ({ where: {id: req.params.id} })
+    .then ( () => 
+      Model.Publication.update(
+        { content: newContent,},
+        { where: { id: req.params.id } }
+      ))
+      .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
       .catch(error => res.status(400).json({ error }));
-};*/
+    }
+  catch(err) { 
+    res.status(401).json("probleme avec la modification de la publication")
+    console.log(err);
+  };   
+};
 
 /*exports.likePublication = (req, res, next) => {
-  const userId = req.body.userId;
-
-  Publication.findOne({_id: req.params.id})
-  .then((publication) => { 
-
-    let likesPublication = publication.likes;
-    let usersLiked = publication.usersLiked;
-    let indexLiked = usersLiked.indexOf(userId);
-
-    let dislikesPublication = publication.dislikes;
-    let usersDisliked = publication.usersDisliked;
-    let indexDisliked = usersDisliked.indexOf(userId);
-
-    switch (req.body.like) {
-      case 1 : 
-      if (indexLiked != -1) {
-        console.log("id de  la deja dans le tableau des likes");
-      }
-      else {
-        likesPublication ++; //on ajoute un like
-        usersLiked.push(userId); //on ajoute l'id de l'utilisateur dans le tableau
-          
-        Publication.updateOne({ _id: req.params.id }, {likes : likesPublication, usersLiked : usersLiked}) //update de la base de donnée
-        .then (() => res.status(200).json({ message: 'Sauce modifiée !'}))
-        .catch(error => res.status(400).json({ error }));
-      }     
-      break;
-  
-      case 0:
-        if (indexLiked != -1) {//l'utilisateur a deja aimé la sauce
-          likesPublication --;// on annule le like
-          usersLiked.splice(indexLiked,1); //on retire l'utilisateur du tableau like
-  
-          Publication.updateOne({ _id: req.params.id }, {likes : likesPublication, usersLiked : usersLiked}) //update de la base de données
-          .then (() => res.status(200).json({ message: 'Like de l utilisateur retiré'}))
-          .catch(error => res.status(400).json({ error }));
-        }
-        else{
-          if (indexDisliked != -1){//l'utilisateur a deja disliké la sauce
-            dislikesPublication --; //on annule le dislike
-            usersDisliked.splice(indexDisliked,1); //on retire l'utilisateur du tableau de dislike
-    
-            Publication.updateOne({ _id: req.params.id }, {dislikes : dislikesPublication, usersDisliked : usersDisliked}) //update de la base de données
-            .then (() => res.status(200).json({ message: 'Dislike de l utilisateur retiré'}))
-            .catch(error => res.status(400).json({ error }));          
-          }
-          else {
-            res.status(400).json({ error })
-          }
-        };
-      break;
-  
-      case -1 :
-        if (indexDisliked != -1) {
-          console.log("id deja dans le tableau des dislikes");
-        }
-        else {
-          dislikesPublication ++; //on ajoute un dislike
-          usersDisliked.push(userId); //on ajoute l'id de l'utilisateur dans le tableau de dislike
-
-          Publication.updateOne({ _id: req.params.id }, {dislikes : dislikesSauce, usersDisliked : usersDisliked}) //update de la base de donnée
-          .then (() => res.status(200).json({ message: 'Sauce modifiée !'}))
-          .catch(error => res.status(400).json({ error }));
-        };
-      break;
-  
-      default :  
-        res.status(200).json({message :"like pris en compte"});
-      break;
-    };  
-  });
 }*/
 

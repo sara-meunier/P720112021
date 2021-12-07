@@ -5,32 +5,29 @@ const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res) => {
   try {
-      const userObject = req.body;
-      const hash = await bcrypt.hash(userObject.password, 10);
-
-      const doublon = await Model.User.findOne({ //on verifie que l'adresse mail est unique
-        where: { email: req.body.email }
-      });
-      if (doublon === null){ console.log("pas de doublon")
+    const userObject = req.body;
+    const hash = await bcrypt.hash(userObject.password, 10);
+    const doublon = await Model.User.findOne({ //on verifie que l'adresse mail est unique
+      where: { email: req.body.email }
+    });
+    if (doublon === null){ console.log("pas de doublon")
       await Model.User.create({
         name: req.body.name,
         role: req.body.role, 
         password: hash,
         email: req.body.email,
         admin: false,
-      })}
-      
-      else {
-        console.log( doublon instanceof Model.User);
-        console.log(doublon.email);
-        console.log("L'adresse mail est déjà utilisée");}
-      
+      })
       res.status(201).json({ message: 'L\'utilisateur à été créé' })
+    }
+    else {
+      res.status(400).json({ message: 'Cet email est déjà utilisé' })    
+    }
   } catch (err) {
     console.log(err);
-      res.status(500).json('Something went wrong')
+    res.status(500).json('Something went wrong')
   }
-}
+};
 
 exports.login = (req, res, next) => {
   Model.User.findOne({ where: {email: req.body.email} })
@@ -41,10 +38,13 @@ exports.login = (req, res, next) => {
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+            return res.status(402).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({
-            userId: user._id,
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
             token: jwt.sign(
               { userId: user._id },
               'RANDOM_TOKEN_SECRET',
@@ -59,21 +59,31 @@ exports.login = (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    const utilisateur = await Model.User.findOne({ 
-    where: {email: req.body.email} });
-    console.log("utilisateur" + utilisateur);
+    console.log(" user Id is: " + req.params.id);
+    const utilisateur = await Model.User.findOne( { where: {id : req.params.id}});
     if (utilisateur !== null){
-    //await Model.Publication.destroy({where: { email: req.body.email }})
-    //.then ( 
-      //await Model.User.destroy()
-      console.log ("la on supprime");
-      //.then(() => res.status(200).json({ message: 'utilisateur supprimée !'}))
-      //.catch(error => res.status(400).json({message: "erreur 1"},{error }))
+      //on commence par supprimer les publications de l'utilisateur
+      const publication = await Model.Publication.findOne({where: {author : utilisateur.id}})
+      if (publication !== null){
+        Model.Publication.destroy({ where: { author :req.params.id}})
+        .then(() => res.status(200).json({ message: 'publications de l\'utilisateur supprimés !'}))
+        .catch(error => res.status(501).json({message: "erreur lors de la supression des publications "},{error }))
+      } else {
+        console.log("pas de publication à supprimer")
+      };
+
+      //on supprimer l'utilisateur
+      await Model.User.destroy({
+        where: { id :req.params.id }
+      })
+      .then(() => res.status(200).json({ message: 'utilisateur supprimé !'}))
+      
+      .catch(error => res.status(400).json({message: "erreur"},{error }))
     }
     else {res.status(502).json({ error })}
   }
   catch (err) {
     console.log(err);
-      res.status(500).json('Something went wrong')
+    res.status(500).json('Something went wrong')
   }
-}
+};

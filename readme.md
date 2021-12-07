@@ -1,6 +1,11 @@
 # Réseau social Groupomania
 
-Description
+MVP du réseau social demandé par Groupomania permettant de :
+-créer un compte
+-s'identifier
+-accéder à son profil
+-publier des messages dans un forum
+-publier des commentaires sous ces messages
 
 ### Prérequis
 
