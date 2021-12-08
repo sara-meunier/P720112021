@@ -7,9 +7,9 @@ exports.createPublication = async (req, res, next) => {
   try {
     await Model.Publication.create({
       author: req.body.author,
+      authorId: req.body.authorId,
       title: req.body.title, 
       content: req.body.content,
-      userId: req.body.userId,
     })
     res.status(201).json({ message: 'L\'utilisateur à été créé' })
   }

@@ -5,7 +5,7 @@
         <v-card-title>{{publication.title}}</v-card-title>
         <v-container fill-height class="v-card__subtitle">
           <i class="material-icons">face</i>
-          <v-layout>placeholder</v-layout>
+          <v-layout>{{publication.author}}</v-layout>
         </v-container>
         <v-card-text> {{publication.preview}}</v-card-text>
         <v-card-actions class="d-flex justify-space-between">

@@ -63,7 +63,7 @@
         if (!this.valid) return
 
         const token = this.$store.getters.token;
-        let publication = {title:this.title, content:this.content, author:this.userInfos.id};
+        let publication = {title:this.title, content:this.content, author:this.userInfos.name, authorId:this.userInfos.id};
 
         fetch("http://localhost:3000/api/publication", {
           method: "POST",

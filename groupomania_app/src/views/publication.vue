@@ -5,7 +5,7 @@
         <h1> {{publication.title}} </h1>
         
         <v-row class="justify-space-between author " >
-          <div id="author"> id de l'auteur: {{publication.author}} </div>
+          <div id="author"> publié par {{publication.author}} </div>
           <v-btn  color="error" class="mr-4" id="signaler" @click="signaler">
              Signaler
           </v-btn>
@@ -28,10 +28,10 @@
          <!-- zone de bouton d'actions -->
 
         <v-row class=" justify-end">          
-            <v-btn  color="success" class="mr-4" @click="modifierPublication" v-if="publication.author == this.userInfos.id && wantToModif == false ">
+            <v-btn  color="success" class="mr-4" @click="modifierPublication" v-if="publication.authorId == this.userInfos.id && wantToModif == false ">
               Modifier
             </v-btn>
-            <v-btn  color="success" class="mr-4" @click="enregistrerPublication" v-if="publication.author == this.userInfos.id && wantToModif == true ">
+            <v-btn  color="success" class="mr-4" @click="enregistrerPublication" v-if="publication.authorId == this.userInfos.id && wantToModif == true ">
               Enregistrer
             </v-btn>
             <v-btn  color="" class="mr-4" @click="annuler" v-if="wantToModif == true ">
@@ -40,7 +40,7 @@
 
             <!--- demande de confirmation pour suppression -->
    
-            <v-dialog v-model="dialog" width="500" v-if="publication.author == this.userInfos.id && wantToModif == true ">
+            <v-dialog v-model="dialog" width="500" v-if="publication.authorId == this.userInfos.id && wantToModif == true ">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="error" dark v-bind="attrs" v-on="on" >
                   Supprimer la publication
@@ -144,7 +144,7 @@
         
         newComment:{
           author:this.$store.getters.name,
-          userId:this.$store.getters.id,
+          authorId:this.$store.getters.id,
           content:'',
           publicationId:this.$route.params.id,
         },
@@ -247,7 +247,7 @@
         const token = this.$store.getters.token;      
         let newComment = {
           author: this.newComment.author, 
-          //userId:this.newComment.userId, 
+          authorId :this.$store.getters.id, 
           content:this.newComment.content, 
           publicationId: this.newComment.publicationId
         };
@@ -307,6 +307,7 @@
         this.publication = {
           id:res.id,
           author:res.author,
+          authorId: res.authorId,
           title:res.title,
           content:res.content
          };
@@ -336,11 +337,13 @@
             let content = res[i].content;
             let publicationId= res[i].publicationId;
             let author = res[i].author;
+            let authorId= res[i].authorId;
 
             if (publicationId == this.publication.id) {
               let comment = {
                 id: id,
                 author: author,
+                authorId: authorId,
                 content: content,
                 publicationId: publicationId,
               }

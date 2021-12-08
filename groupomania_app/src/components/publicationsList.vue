@@ -31,6 +31,7 @@ import publicationMini from '@/components/publicationMini.vue';
         publication: {
           id:'',
           author:'',
+          authorId:'',
           title:'',
           content:''
         },
@@ -62,7 +63,7 @@ import publicationMini from '@/components/publicationMini.vue';
       .then ( function(res) {//res = reponse de la requete
         if (res.ok) {
             return res.json();
-        } else ( alert("une erreur s'est produite"))
+        } else ( alert("une erreur s'est produite lors de la récupération des publications"))
       })
 
       .then(res => {
@@ -72,12 +73,14 @@ import publicationMini from '@/components/publicationMini.vue';
             let title =res[i].title;
             let content = res[i].content;
             let author = res[i].author;
+            let authorId = res [i].authorId;
 
             let product = {
               id: id,
               title: title,
               content: content,
-              author: author
+              author: author,
+              authorId: authorId,
             }
             table.push (product);
         }
