@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1> Dernier Commentaire</h1>
+    <h2> Derniers Commentaires</h2>
     
 
       <div

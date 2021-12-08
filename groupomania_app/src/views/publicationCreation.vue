@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1> creation de publication </h1>
+    <h1> Creétion de publication </h1>
     <div class="creationPublication">
       <v-form
       ref="form"

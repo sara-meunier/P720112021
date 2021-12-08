@@ -8,9 +8,10 @@
 
       <v-card class="container d-flex flex-column justify-space-around  " flat outlined :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-4'">
         <div>
-          <h2 class="mb-6"> Votre profil </h2>
+          <h1 class="mb-6"> Votre profil </h1>
           <p> Mail: {{this.userInfos.email}}</p>
           <p> Role : {{this.userInfos.role}}</p>
+          <div class="admin" v-if="this.userInfos.admin == true"><p> Vous êtes un admin </p></div>
         </div>
 
         <div class="d-flex justify-space-around  flex-wrap">
@@ -104,4 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.admin {
+  color : red;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1> Dernières publications</h1>
+    <h2> Dernières publications</h2>
     <div>{{allPublication}}</div>
 
       <div

@@ -9,13 +9,13 @@
         lazy-validation
          >   
                
-            <v-text-field v-model="name" :rules="nameRules" label="Nom" placeholder="placeholder" id="name" required></v-text-field>
+            <v-text-field v-model="name" :rules="nameRules" label="Nom" placeholder="indiquez votre nom" id="name" required></v-text-field>
 
-            <v-text-field v-model="role" label="Role dans l'entrepise" placeholder="placeholder" id="role" required></v-text-field>
+            <v-text-field v-model="role" label="Role dans l'entreprise" placeholder="indiquez votre fonction" id="role" required></v-text-field>
 
-            <v-text-field v-model="password" :rules="passwordRules" type="password" label="Mot de passe" placeholder="placeholder"  id="password" required></v-text-field>
+            <v-text-field v-model="password" :rules="passwordRules" type="password" label="Mot de passe" placeholder="Indiquez mot de passe"  id="password" required></v-text-field>
 
-            <v-text-field v-model="email" :rules="emailRules"  label="E-mail"  id="email" placeholder="placeholder" required></v-text-field>
+            <v-text-field v-model="email" :rules="emailRules"  label="E-mail"  id="email" placeholder="Indiquez votre adresse email" required></v-text-field>
 
             <v-btn :disabled="!valid" color="success" class="mr-4" @click="creationUser">
                 S'inscrire

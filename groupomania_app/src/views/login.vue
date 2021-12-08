@@ -6,9 +6,9 @@
         v-model="valid"
         lazy-validation
     >
-        <v-text-field v-model="email" :rules="emailRules" label="E-mail"   placeholder="placeholder" id="email" outlined required></v-text-field>
+        <v-text-field v-model="email" :rules="emailRules" label="E-mail"   placeholder="Indiquez votre adresse email" id="email" outlined required></v-text-field>
         
-        <v-text-field v-model="password" :rules="passwordRules" type="password" label="Mot de Passe" placeholder="placeholder" id="password" outlined required></v-text-field>
+        <v-text-field v-model="password" :rules="passwordRules" type="password" label="Mot de Passe" placeholder="Indiquez votre mot de passe" id="password" outlined required></v-text-field>
 
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="login">
             Se connecter

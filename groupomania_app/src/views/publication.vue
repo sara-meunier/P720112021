@@ -3,6 +3,7 @@
     <v-row class="justify-center pt-10" id="publication">
       <v-col  cols="12" lg="9" class="gray" >
         <h1> {{publication.title}} </h1>
+        <p> est admin ou non {{this.userInfos.admin}}
         
         <v-row class="justify-space-between author " >
           <div id="author"> publié par {{publication.author}} </div>
@@ -28,10 +29,15 @@
          <!-- zone de bouton d'actions -->
 
         <v-row class=" justify-end">          
-            <v-btn  color="success" class="mr-4" @click="modifierPublication" v-if="publication.authorId == this.userInfos.id && wantToModif == false ">
+            <v-btn  color="success" class="mr-4" 
+            @click="modifierPublication" 
+            v-if="publication.authorId == this.userInfos.id && wantToModif == false || this.userInfos.admin==true && wantToModif == false ">
+            
               Modifier
             </v-btn>
-            <v-btn  color="success" class="mr-4" @click="enregistrerPublication" v-if="publication.authorId == this.userInfos.id && wantToModif == true ">
+            <v-btn  color="success" class="mr-4" 
+            @click="enregistrerPublication" 
+            v-if="publication.authorId == this.userInfos.id && wantToModif == true || this.userInfos.admin==true && wantToModif == true">
               Enregistrer
             </v-btn>
             <v-btn  color="" class="mr-4" @click="annuler" v-if="wantToModif == true ">
@@ -40,7 +46,8 @@
 
             <!--- demande de confirmation pour suppression -->
    
-            <v-dialog v-model="dialog" width="500" v-if="publication.authorId == this.userInfos.id && wantToModif == true ">
+            <v-dialog v-model="dialog" width="500" 
+            v-if="publication.authorId == this.userInfos.id && wantToModif == true || this.userInfos.admin==true && wantToModif == true">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="error" dark v-bind="attrs" v-on="on" >
                   Supprimer la publication
@@ -174,7 +181,8 @@
           token: this.$store.getters.token,
           name: this.$store.getters.name,
           email: this.$store.getters.email,
-          role: this.$store.getters.role
+          role: this.$store.getters.role,
+          admin: this.$store.getters.admin
         }
       },
     },
