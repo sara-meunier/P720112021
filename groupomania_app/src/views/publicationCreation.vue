@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1> Creétion de publication </h1>
+    <h1> Création de publication </h1>
     <div class="creationPublication">
       <v-form
       ref="form"
@@ -8,7 +8,10 @@
       lazy-validation
       >
         <v-text-field v-model="title" :rules="titleRules" label="Titre" placeholder="titre de la publication" id="title" required outlined></v-text-field>
-        <v-textarea outlined v-model="content" :rules="contentRules"></v-textarea>
+        <v-textarea outlined v-model="content" :rules="contentRules" label="Publication" placeholder="Ecrivez votre texte ici"></v-textarea>
+
+       <i class="material-icons">add_a_photo</i>  <v-file-input v-model="image" type="file" label="Ajouter une image"  filled prepend-icon="mdi-camera"></v-file-input>
+
         </v-form>
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="creationPublication">
           Publier
@@ -37,7 +40,9 @@
             v => !!v || 'Votre message est vide',
             v => (v && v.length <= 2000) || 'Le titre doit faire moins de 2000 caractéres',
         ],
-        userId:'',
+        authorId:'',
+        image:'',
+
     }),
     
     computed: {
@@ -58,30 +63,38 @@
             this.$refs.form.validate()
         },
 
-      async creationPublication() {
+    async creationPublication() {
         await this.validate()
         if (!this.valid) return
 
+        var formData = new FormData();
         const token = this.$store.getters.token;
-        let publication = {title:this.title, content:this.content, author:this.userInfos.name, authorId:this.userInfos.id};
+        formData.append("title", this.title);
+        formData.append("content", this.content);
+        formData.append("author", this.userInfos.name);
+        formData.append("authorId", this.userInfos.id);
+        formData.append("image", this.image);
+           console.log("test récup", formData.get("image"));
+      console.log("test récup", formData.get("content"));
 
         fetch("http://localhost:3000/api/publication", {
           method: "POST",
           headers: {
            Authorization: "Bearer " + token,
-            'Accept': 'application/json', 
-            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(publication),
+          body: formData,
         })
         .then(response => response.json());
         alert ("Votre message a bien été enregistré");
         const router = this.$router;
         router.push({path:'forum'});
       },
+
       annuler() {
         this.$router.push('Forum');
       }
     }
+
+
   }
 </script>

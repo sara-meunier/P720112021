@@ -3,15 +3,20 @@
     <v-row class="justify-center pt-10" id="publication">
       <v-col  cols="12" lg="9" class="gray" >
         <h1> {{publication.title}} </h1>
-        
         <v-row class="justify-space-between author " >
           <div id="author"> publié par {{publication.author}} </div>
           <v-btn  color="error" class="mr-4" id="signaler" @click="signaler">
              Signaler
           </v-btn>
-        </v-row>
-         
+        </v-row>         
          <!--affichage de la publication -->
+
+         <v-img
+          max-width="90%"
+          max-height="400px"
+          :src="this.publication.imageUrl"
+        ></v-img>
+         
         <div id = "publicationContent" class="" v-if="wantToModif == false">
            {{publication.content}}
          </div>
@@ -24,6 +29,7 @@
          :rules="contentRules" 
          :value=publication.content 
          v-if="wantToModif == true"></v-textarea>
+         <i v-if="wantToModif == true" class="material-icons">add_a_photo</i>  <v-file-input v-if="wantToModif == true" v-model="newImage" type="file" label="File input" filled prepend-icon="mdi-camera"></v-file-input>
 
          <!-- zone de bouton d'actions -->
 
@@ -145,7 +151,8 @@
           id:'',
           author:'',
           title:'',
-          content:''
+          content:'',
+          imageUrl:'',
         },
         
         newComment:{
@@ -169,6 +176,8 @@
         wantToComment: '',
 
         dialog: false,
+
+        newImage:'',
       };
     },
 
@@ -227,21 +236,22 @@
 
       enregistrerPublication(){
         this.wantToModif =false;
-        const token = this.$store.getters.token;
         let newContent = document.getElementById("contentModif").value;
-        let envoi = { content : newContent}
+        const token = this.$store.getters.token;
+        var formData = new FormData();
+
+        formData.append("content", newContent);
+        formData.append("image", this.newImage);
+
         fetch("http://localhost:3000/api/publication/"+this.publication.id, {
           method: "PUT",
           headers: {
            Authorization: "Bearer " + token,
-            'Accept': 'application/json', 
-            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(envoi),
+          body: formData,
         })
         .then(response => response.json());
-        alert ("Vos modifications ont bien été enregistrées");
-        this.content=newContent;
+        alert ("Vos modifications ont bien été enregistrées");  
         this.$router.go();
       },
 
@@ -316,7 +326,8 @@
           author:res.author,
           authorId: res.authorId,
           title:res.title,
-          content:res.content
+          content:res.content,
+          imageUrl:res.imageUrl
          };
       })
     },
