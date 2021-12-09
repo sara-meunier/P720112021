@@ -6,7 +6,7 @@ exports.createComment = async (req, res, next) => {
   try {
     await Model.Comment.create({
       author: req.body.author,
-      authorId: req.body.author.Id,
+      authorId: req.body.authorId,
       content: req.body.content,
       publicationId : req.body.publicationId,
     })

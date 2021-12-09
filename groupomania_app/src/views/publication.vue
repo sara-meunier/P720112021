@@ -254,7 +254,7 @@
         const token = this.$store.getters.token;      
         let newComment = {
           author: this.newComment.author, 
-          authorId :this.$store.getters.id, 
+          authorId :this.newComment.authorId, 
           content:this.newComment.content, 
           publicationId: this.newComment.publicationId
         };

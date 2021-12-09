@@ -64,9 +64,9 @@ exports.deleteUser = async (req, res, next) => {
     const utilisateur = await Model.User.findOne( { where: {id : req.params.id}});
     if (utilisateur !== null){
       //on commence par supprimer les publications de l'utilisateur
-      const publication = await Model.Publication.findOne({where: {author : utilisateur.id}})
+      const publication = await Model.Publication.findOne({where: {authorId : utilisateur.id}})
       if (publication !== null){
-        Model.Publication.destroy({ where: { author :req.params.id}})
+        Model.Publication.destroy({ where: { authorId :req.params.id}})
         .then(() => res.status(200).json({ message: 'publications de l\'utilisateur supprimés !'}))
         .catch(error => res.status(501).json({message: "erreur lors de la supression des publications "},{error }))
       } else {
