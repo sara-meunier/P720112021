@@ -3,7 +3,6 @@
     <v-row class="justify-center pt-10" id="publication">
       <v-col  cols="12" lg="9" class="gray" >
         <h1> {{publication.title}} </h1>
-        <p> est admin ou non {{this.userInfos.admin}}
         
         <v-row class="justify-space-between author " >
           <div id="author"> publié par {{publication.author}} </div>
