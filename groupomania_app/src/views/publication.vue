@@ -22,7 +22,7 @@
            {{publication.content}}
          </div>
 
-        <!-- zone de modification de la publiction -->
+        <!-- zone de modification de la publication -->
          <v-textarea outlined 
          id="contentModif" 
          label= "modifier votre publication" 
@@ -30,8 +30,12 @@
          :rules="contentRules" 
          :value=publication.content 
          v-if="wantToModif == true"></v-textarea>
-         <i v-if="wantToModif == true" class="material-icons">add_a_photo</i>  <v-file-input v-if="wantToModif == true" v-model="newImage" type="file" label="File input" filled prepend-icon="mdi-camera"></v-file-input>
-
+         <v-row class="inputImage">
+           
+           <i v-if="wantToModif == true" class="material-icons"  fill-height>add_a_photo</i> 
+         <v-file-input v-if="wantToModif == true" v-model="newImage" type="file" label="Importer une nouvelle image" filled ></v-file-input>
+         </v-row>
+         
          <!-- zone de bouton d'actions -->
 
         <v-row class=" justify-end">          
@@ -383,6 +387,12 @@
   margin-bottom: 10px;
   padding: 0px !important;
   
+}
+
+.inputImage {
+    align-items: center;
+  justify-content: center;
+  margin-left:3px;
 }
 .border { 
 border-radius: 10px;

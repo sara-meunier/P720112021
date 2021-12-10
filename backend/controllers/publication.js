@@ -123,9 +123,6 @@ exports.modifyPublication = async (req, res, next) => {
           { content: req.body.content,
           imageUrl : newUrl},
           { where: { id: req.params.id } })
-        //.then(() => res.status(201).json({ message: 'nouvelle image enregistrée'}))
-        //.catch(error => res.status(401).json({ error }));
-
       //si l'utilisateur n'a pas modifié l'image
       } 
       
@@ -147,41 +144,6 @@ exports.modifyPublication = async (req, res, next) => {
     console.log(err);
   };   
 };
-
-/*
-exports.modifyPublication = async (req, res, next) => {
-  try { 
-    let newContent = (req.body.content);
-    let publicationId = (req.params.id);
-    await Model.Publication.findOne ({ where: {id: req.params.id} })
-    .then ( () => {
-    //si l'utilisateur a modifié l'image
-      if (req.file !== undefined) {
-        console.log("il y a une image");
-        //on enregistre la nouvelle image
-        const newUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-        Model.Publication.update(
-          { content: req.body.content,
-          imageUrl : newUrl},
-          { where: { id: req.params.id } })
-
-      //si l'utilisateur n'a pas modifié l'image
-      } else {console.log("il n'y a pas d'image");
-        Model.Publication.update(
-          { content: newContent},
-          { where: { id: publicationId } }
-      )}
-    })
-    .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
-    .catch(error => res.status(400).json({ error }),
-    console.log(error));
-    }
-  catch(err) { 
-    res.status(401).json("probleme avec la modification de la publication")
-    console.log(err);
-  };   
-};
-*/
 
 /*exports.likePublication = (req, res, next) => {
 }*/

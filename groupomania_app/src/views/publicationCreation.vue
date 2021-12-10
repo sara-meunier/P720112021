@@ -10,8 +10,10 @@
         <v-text-field v-model="title" :rules="titleRules" label="Titre" placeholder="titre de la publication" id="title" required outlined></v-text-field>
         <v-textarea outlined v-model="content" :rules="contentRules" label="Publication" placeholder="Ecrivez votre texte ici"></v-textarea>
 
-       <i class="material-icons">add_a_photo</i>  <v-file-input v-model="image" type="file" label="Ajouter une image"  filled prepend-icon="mdi-camera"></v-file-input>
-
+       <v-container fill-height>
+         <i class="material-icons">add_a_photo</i>
+         <v-file-input v-model="image" type="file" label="Ajouter une image"  filled prepend-icon="mdi-camera"></v-file-input>
+        </v-container>
         </v-form>
         <v-btn :disabled="!valid" color="success" class="mr-4" @click="creationPublication">
           Publier
