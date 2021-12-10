@@ -6,12 +6,11 @@ const fs = require('fs'); //package file system de node
 exports.createPublication = async (req, res, next) => {
   
   try {
-    //const publicationObject = JSON.parse(req.body.publication);
+    
     let url = null;
     console.log(req.body);
-    console.log(req.file);
-    console.log("nom du fichier : " + req.file.filename);
-    if (req.body.image === null) {
+    console.log(req.file);    
+    if (req.file == undefined) {
       url = null;
     } else {  url = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`};
     console.log("l'url de l'image est : " + url);

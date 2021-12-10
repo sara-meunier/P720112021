@@ -10,12 +10,13 @@
           </v-btn>
         </v-row>         
          <!--affichage de la publication -->
-
+        <v-row class=" publicationImg justify-center pt-10">
          <v-img
           max-width="90%"
           max-height="400px"
           :src="this.publication.imageUrl"
         ></v-img>
+        </v-row>
          
         <div id = "publicationContent" class="" v-if="wantToModif == false">
            {{publication.content}}
@@ -378,7 +379,9 @@
 
 <style lang="scss" scoped>
 
-.h1 {
+.publicationImg {
+  margin-bottom: 10px;
+  padding: 0px !important;
   
 }
 .border { 

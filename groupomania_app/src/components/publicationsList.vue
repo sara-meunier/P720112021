@@ -33,7 +33,8 @@ import publicationMini from '@/components/publicationMini.vue';
           author:'',
           authorId:'',
           title:'',
-          content:''
+          content:'',
+          imageUrl:''
         },
         allPublications : {} ,
       };
@@ -74,6 +75,7 @@ import publicationMini from '@/components/publicationMini.vue';
             let content = res[i].content;
             let author = res[i].author;
             let authorId = res [i].authorId;
+            let imageUrl = res [i].imageUrl;
 
             let product = {
               id: id,
@@ -81,6 +83,7 @@ import publicationMini from '@/components/publicationMini.vue';
               content: content,
               author: author,
               authorId: authorId,
+              imageUrl: imageUrl,
             }
             table.push (product);
         }
